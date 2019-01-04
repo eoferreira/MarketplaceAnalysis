@@ -42,7 +42,7 @@ def formatInt(text):
 # def get_soup(content, parser='html.parser'):
 # 	return
 
-def parseAllAds(session, url='https://www.icarros.com.br/comprar/chevrolet/onix'):
+def parseAllAds(session, url='https://www.icarros.com.br/comprar/chevrolet/onix', base_url='https://www.icarros.com.br'):
 	# Requests
 	response = session.get(url)#, headers=headers)
 	print(response)
@@ -69,15 +69,19 @@ def parseAllAds(session, url='https://www.icarros.com.br/comprar/chevrolet/onix'
 		print(url)
 		parseAd(parent)
 		curr_page += 1
-		sleep(0.5)
+		sleep(1.5)
 		paging = soup.find('div', {'class': 'clearfix paginacao'})\
 					 .find('li', {'class': 'proxima'})
 		if paging != None:
 			new_page = paging.find('a')\
 					 		 .get('href')
+			# Done when parsing whole website
+			# print(new_page)
+			new_page = '&' + new_page.split('?')[1]
 			# print(new_page)
 			url = base_url + new_page
 			response = session.get(url)
+			print(response)
 			soup = BeautifulSoup(response.content, 'html.parser')
 			parent = soup.find('form', {'id': 'anunciosForm'})
 		else:
@@ -134,8 +138,13 @@ def parseAd(parent):
 
 
 			###############################################################################3
-
 			seller_data = anuncio.find('div', {'class': 'dados_anunciante'})
+
+			# print(ad_id, title)
+			# print(seller_data.findAll('p')[-1])
+			if seller_data.findAll('p') == []:
+				continue
+			# print(seller_data.findAll('p'))
 			dados_localizacao = seller_data.findAll('p')[-1]
 
 
@@ -184,5 +193,7 @@ def parseAd(parent):
 
 if __name__ == '__main__':
     session = requests.Session()
-    parseAllAds(session, url='https://www.icarros.com.br/comprar/chevrolet/onix?pag=68&ord=16')
+    parseAllAds(session, base_url='https://www.icarros.com.br/ache/listaanuncios.jsp?bid=6&app=20&sop=nta_17|44|51.1_-est_MG.1_-cid_2754.1_-rai_50.1_-esc_4.1_-sta_1.1_&pas=1&lis=0',
+    					 url='https://www.icarros.com.br/ache/listaanuncios.jsp?bid=1&app=20&sop=nta_17|44|51.1_-est_MG.1_-cid_2754.1_-rai_50.1_-esc_4.1_-sta_1.1_&pas=1&lis=0&pag=5383&ord=16')
+    					 # url='https://www.icarros.com.br/ache/listaanuncios.jsp?bid=0&opcaocidade=1&foa=1&anunciosNovos=1&anunciosUsados=1&marca1=0&modelo1=0&anomodeloinicial=0&anomodelofinal=0&precominimo=0&precomaximo=0&cidadeaberto=&escopo=4&locationSop=cid_2754.1_-est_MG.1_-esc_2.1_-rai_50.1_')
 
