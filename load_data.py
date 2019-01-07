@@ -84,8 +84,9 @@ def load_data(client, dataset_ref, table_ref, filename):
 
 if __name__ == '__main__':
 	# Connect to bigquery
-	client = bigquery.Client.from_service_account_json('../../Downloads/ancient-medium-220620-dcb918ca109a.json')
-	# client = bigquery.Client.from_service_account_json('../../Downloads/data-team-test-9679630f09ee (1).json')
+	# client = bigquery.Client.from_service_account_json('ancient-medium-220620-dcb918ca109a.json')
+	client = bigquery.Client.from_service_account_json('human-protein-222213-8e084e4e72df.json')
+	# client = bigquery.Client.from_service_account_json('data-team-test-9679630f09ee (1).json')
 	# Path to source file	
 	filename = './bigquery/newline__.json'
 
