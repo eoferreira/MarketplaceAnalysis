@@ -102,6 +102,7 @@ def parseAd(parent):
 			model = version.split(' ', 1)[0]
 			car_info = dados_a.find('ul', {'class': 'listahorizontal'}).findAll('li')
 
+			# Ensure extraction of fields that are not always present without errors 
 			color, year, km, transmission = '', '', '', ''
 			for info in car_info:
 				# Color
@@ -124,17 +125,11 @@ def parseAd(parent):
 				else:
 					print('Error when reading car_info!!')
 
-
-			###############################################################################3
+			# Do some early transformations
 			seller_data = anuncio.find('div', {'class': 'dados_anunciante'})
-
-			# print(ad_id, title)
-			# print(seller_data.findAll('p')[-1])
 			if seller_data.findAll('p') == []:
 				continue
-			# print(seller_data.findAll('p'))
 			dados_localizacao = seller_data.findAll('p')[-1]
-
 
 			# If the neighborhood info is present
 			if len(seller_data.findAll('p')) > 1:
@@ -152,11 +147,12 @@ def parseAd(parent):
 				seller = formatText( seller_data.find('strong').getText() )
 				bool_particular = 1 
 
-			################################################################################
 			price = formatText( anuncio.find('h3', {'class': 'direita preco_anuncio'})\
 								.getText()\
 								.replace('R$', '') 
 							  )
+
+			# Dump the data
 			data = {
 	                'id': ad_id,
 	                'preco': price,

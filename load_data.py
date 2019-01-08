@@ -1,3 +1,7 @@
+''' Created by Eduardo de Oliveira Ferreira @eoferreia
+	Loads newline delimited JSON into a BigQuery dataset.table
+'''
+
 from google.cloud import bigquery
 
 
@@ -16,7 +20,6 @@ def create_dataset(client, dataset_id):
 	        print('\t{}'.format(dataset.dataset_id))
 	else:
 	    print('\n{} project does not contain any datasets.'.format(project))
-
 
 	# Construct a full Dataset object to send to the API.
 	dataset = bigquery.Dataset(dataset_ref)
@@ -49,7 +52,7 @@ def create_table(client, dataset_ref, table_id, schema, autodetect=False):
 
 	try:
 		print('Creating table \'{}\'...'.format(dataset_id))
-		client.create_table(bigquery.Table(table_ref, schema=schema))                  # API request
+		client.create_table(bigquery.Table(table_ref, schema=schema))  # API request
 		print('Table \'{}\' was created'.format(table_id))
 		return dataset_ref.table(table_id)
 		# return client.get_table(table_ref)
@@ -84,9 +87,7 @@ def load_data(client, dataset_ref, table_ref, filename):
 
 if __name__ == '__main__':
 	# Connect to bigquery
-	# client = bigquery.Client.from_service_account_json('ancient-medium-220620-dcb918ca109a.json')
-	client = bigquery.Client.from_service_account_json('human-protein-222213-8e084e4e72df.json')
-	# client = bigquery.Client.from_service_account_json('data-team-test-9679630f09ee (1).json')
+	client = bigquery.Client.from_service_account_json('data-team-test-9679630f09ee (1).json')
 	# Path to source file	
 	filename = './bigquery/newline__.json'
 

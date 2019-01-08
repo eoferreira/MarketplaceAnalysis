@@ -1,5 +1,6 @@
 ''' Created by Eduardo de Oliveira Ferreira @eoferreia
 	Prepare extracted files to be ready for BigQuery injestion.
+	Dumps tranformations to a single newline delimited JSON.
 '''
 
 import os
@@ -45,6 +46,7 @@ def agglomerate(brand='', model=''):
 			new_json = json.load(data_file, encoding='utf8')
 			# Do some transformations
 			# Removing rows where seller didn't say the price
+			# Transforming other rows
 			if type(formatInt(new_json['preco'].replace('.', '').replace(',', '').replace('R$', ''))) is int:
 				new_json['preco'] = new_json['preco'].replace('.', '').replace(',', '.').replace('R$', '')
 				new_json['km'] = str(new_json['km'])
