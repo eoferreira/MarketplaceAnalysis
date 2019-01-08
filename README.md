@@ -19,6 +19,9 @@ Esse notebook executa queries SQL na tabela que recebeu os dados no BigQuery e r
 ## queries.sql
 Este arquivo SQL contém queris utilizadas no notebook Resultados.ipynb.
 
+## Resultados.pdf
+PDF com visualização de resultados.
+
 ------------------
 
 Web scraping of a marketplace (www.icarros.com.br) for analysis on BigQuery. The main files are the following:
